@@ -13,6 +13,7 @@
 #              and some 0.24 and 0.25 improvements for guessing where
 #              to find the yaml
 # 2010/03/30 - Improves Puppet 0.25 support thanks to Andy Asquelt
+# 2010/09/14 - Add Puppet 2.6.x support
 #
 # Contact:
 # R.I.Pienaar <rip@devco.net> - www.devco.net - @ripienaar
@@ -28,6 +29,7 @@ require 'facter'
 require 'pp'
 
 @limit = nil
+@notags = false
 
 OptionParser.new do |opt|
   opt.banner = "Usage: #{__FILE__} [options] [yaml file]"
@@ -54,15 +56,13 @@ OptionParser.new do |opt|
   end
 end.parse!
 
-Puppet[:name] = "puppetd"
-
 Puppet.parse_config
 
-if Puppet.version =~ /^[0-9]+[.]([0-9]+)[.][0-9]+$/
-  version = $1.to_i
+if Puppet.version =~ /^([0-9]+[.][0-9]+)[.][0-9]+$/
+  version = $1
 
-  unless version == 25 || version == 24
-    puts("Don't know how to print catalogs for verion #{Puppet.version} only 0.24 and 0.25 is supported")
+  unless ["0.25", "0.24", "2.6"].include?(version)
+    puts("Don't know how to print catalogs for verion #{Puppet.version} only 0.24, 0.25 and 2.6 is supported")
     exit 1
   end
 else
@@ -72,10 +72,10 @@ end
 
 # Navigate the hellish mess of changing behaviour 24 v 25
 case version
-  when  24
+  when  "0.24"
     ARGV[0] ? localconfig = ARGV[0] : localconfig = "#{Puppet[:localconfig]}.yaml"
 
-  when 25
+  else
     facts = Facter.to_hash
     fqdn = facts['fqdn']
 
@@ -144,23 +144,23 @@ unless @noclasses
   puts("\n\n")
 end
 
-if version == 25 && @notags != true
-  # 0.24 doesn't have tags in it
-  if pup.respond_to?("tags")
-    puts("Tags for this node:")
-    pup.tags.each do |tag|
-      puts("\t#{tag}")
+unless version == "0.24"
+  unless @notags == false
+    # 0.24 doesn't have tags in it
+    if pup.respond_to?("tags")
+      puts("Tags for this node:")
+      pup.tags.each do |tag|
+        puts("\t#{tag}")
+      end
     end
-  end
 
-  puts("\n\n")
+    puts("\n\n")
+  end
 end
 
 puts("Resources managed by puppet on this node:")
-if version == 24
+if version == "0.24"
   printbucket pup
-elsif version == 25
-  printresource pup
 else
-  puts("Don't know how to print catelog for version #{version}")
+  printresource pup
 end

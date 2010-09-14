@@ -1,6 +1,6 @@
 What is this?
 =============
-A script that reads catalogs from Puppet versions 0.24 and 0.25 
+A script that reads catalogs from Puppet versions 0.24, 0.25 and 2.6
 and displays the contents.
 
 Usage
