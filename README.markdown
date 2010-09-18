@@ -3,6 +3,13 @@ What is this?
 A script that reads catalogs from Puppet versions 0.24, 0.25 and 2.6
 and displays the contents.
 
+Two versions are provided, one standalone and one that ties into the 
+Puppet 2.6 application structure.  There is a bug in Puppet that 
+prevents applications from being copied out with pluginsync so to use
+the application plugin you need to copy it into your ruby libdir but
+you then can just use 'puppet parse' with the same arguments as outlined
+below.
+
 Usage
 =====
 <pre>
