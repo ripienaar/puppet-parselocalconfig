@@ -166,8 +166,8 @@ end
 unless @noresources
   puts("Resources managed by puppet on this node:")
   if version == "0.24"
-  printbucket pup
+    printbucket pup
   else
-  printresource pup
+    printresource pup
   end
 end
