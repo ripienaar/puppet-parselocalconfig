@@ -14,6 +14,7 @@
 #              to find the yaml
 # 2010/03/30 - Improves Puppet 0.25 support thanks to Andy Asquelt
 # 2010/09/14 - Add Puppet 2.6.x support
+# 2011/06/17 - Add option to not print resources (Robin Bowes)
 #
 # Contact:
 # R.I.Pienaar <rip@devco.net> - www.devco.net - @ripienaar
@@ -44,6 +45,10 @@ OptionParser.new do |opt|
 
   opt.on("--no-classes", "--nc", "Don't show classes list") do |v|
     @noclasses = true
+  end
+
+  opt.on("--no-resources", "--nr", "Don't show resources list") do |v|
+    @noresources = true
   end
 
   opt.on("--no-tags", "--nt", "Don't show tags list") do |v|
@@ -158,9 +163,11 @@ unless version == "0.24"
   end
 end
 
-puts("Resources managed by puppet on this node:")
-if version == "0.24"
+unless @noresources
+  puts("Resources managed by puppet on this node:")
+  if version == "0.24"
   printbucket pup
-else
+  else
   printresource pup
+  end
 end
