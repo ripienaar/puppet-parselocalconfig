@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 # Reads the puppet YAML cache and prints out all the resources in it
-# for each resource it will show the file it was defined in on the 
+# for each resource it will show the file it was defined in on the
 # master
 #
 # Simply pass in the path to the yaml file
@@ -66,8 +66,8 @@ Puppet.parse_config
 if Puppet.version =~ /^([0-9]+[.][0-9]+)[.][0-9]+$/
   version = $1
 
-  unless ["0.25", "0.24", "2.6"].include?(version)
-    puts("Don't know how to print catalogs for verion #{Puppet.version} only 0.24, 0.25 and 2.6 is supported")
+  unless ["0.25", "0.24", "2.6", "2.7"].include?(version)
+    puts("Don't know how to print catalogs for verion #{Puppet.version} only 0.24, 0.25, 2.6 and 2.7 is supported")
     exit 1
   end
 else
@@ -111,7 +111,7 @@ def printbucket(bucket)
   elsif bucket.class == Puppet::TransObject
     manifestfile = bucket.file.gsub("/etc/puppet/manifests/", "")
 
-    if @limit 
+    if @limit
       if bucket.type == @limit
         puts "\t#{bucket.type} { #{bucket.name}: }\n\t\tdefined in #{manifestfile}:#{bucket.line}\n\n"
       end
@@ -130,7 +130,7 @@ def printresource(resource)
     target = resource.target
     manifestfile = target.file.gsub("/etc/puppet/manifests/", "")
 
-    if @limit 
+    if @limit
       if target.type == @limit
         puts "\t#{target.type} { #{target.title}: }\n\t\tdefined in #{manifestfile}:#{target.line}\n\n"
       end
