@@ -1,0 +1,8 @@
+name 'ripienaar-catalog_print'
+version '0.2.0'
+source 'git://github.com/ripienaar/puppet-parselocalconfig.git'
+author 'R.I.Pienaar'
+license 'Apache'
+summary 'Displays the contents of a Puppet catalog'
+description 'Displays the contents of a Puppet catalog'
+project_page 'http://github.com/ripienaar/puppet-parselocalconfig'

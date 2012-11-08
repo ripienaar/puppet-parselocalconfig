@@ -1,12 +1,11 @@
 What is this?
 =============
-A script that reads catalogs from Puppet versions 0.24, 0.25 and 2.6
-and displays the contents.
+A puppet face that reads catalogs from Puppet and displays the contents.
 
 Usage
 =====
 <pre>
-# parselocalconfig.rb /var/lib/puppet/client_yaml/catalog/fqdn.yaml
+# puppet catalog print
 Classes included on this node:
         fqdn
         common::linux
